@@ -21,20 +21,19 @@ class CustomTextField extends StatefulWidget {
 
   CustomTextField(
       {this.hintText = 'Write something...',
-        this.controller,
-        this.focusNode,
-        this.nextFocus,
-        this.isEnabled = true,
-        this.inputType = TextInputType.text,
-        this.inputAction = TextInputAction.next,
-        this.maxLines = 1,
-        this.onSubmit,
-        this.onChanged,
-        this.prefixIcon,
-        this.capitalization = TextCapitalization.none,
-        this.isPassword = false,
-        this.divider = false}
-      );
+      this.controller,
+      this.focusNode,
+      this.nextFocus,
+      this.isEnabled = true,
+      this.inputType = TextInputType.text,
+      this.inputAction = TextInputAction.next,
+      this.maxLines = 1,
+      this.onSubmit,
+      this.onChanged,
+      this.prefixIcon,
+      this.capitalization = TextCapitalization.none,
+      this.isPassword = false,
+      this.divider = false});
 
   @override
   _CustomTextFieldState createState() => _CustomTextFieldState();
@@ -51,21 +50,35 @@ class _CustomTextFieldState extends State<CustomTextField> {
           maxLines: widget.maxLines,
           controller: widget.controller,
           focusNode: widget.focusNode,
-          style: robotoRegular.copyWith(fontSize: Dimensions.FONT_SIZE_LARGE),
+          style: robotoRegular.copyWith(
+              fontSize: Dimensions.FONT_SIZE_LARGE,
+              color: Theme.of(context).primaryColor),
           textInputAction: widget.inputAction,
           keyboardType: widget.inputType,
           cursorColor: Theme.of(context).primaryColor,
           textCapitalization: widget.capitalization,
           enabled: widget.isEnabled,
           autofocus: false,
-          autofillHints: widget.inputType == TextInputType.name ? [AutofillHints.name]
-              : widget.inputType == TextInputType.emailAddress ? [AutofillHints.email]
-              : widget.inputType == TextInputType.phone ? [AutofillHints.telephoneNumber]
-              : widget.inputType == TextInputType.streetAddress ? [AutofillHints.fullStreetAddress]
-              : widget.inputType == TextInputType.url ? [AutofillHints.url]
-              : widget.inputType == TextInputType.visiblePassword ? [AutofillHints.password] : null,
+          autofillHints: widget.inputType == TextInputType.name
+              ? [AutofillHints.name]
+              : widget.inputType == TextInputType.emailAddress
+                  ? [AutofillHints.email]
+                  : widget.inputType == TextInputType.phone
+                      ? [AutofillHints.telephoneNumber]
+                      : widget.inputType == TextInputType.streetAddress
+                          ? [AutofillHints.fullStreetAddress]
+                          : widget.inputType == TextInputType.url
+                              ? [AutofillHints.url]
+                              : widget.inputType ==
+                                      TextInputType.visiblePassword
+                                  ? [AutofillHints.password]
+                                  : null,
           obscureText: widget.isPassword ? _obscureText : false,
-          inputFormatters: widget.inputType == TextInputType.phone ? <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp('[0-9+]'))] : null,
+          inputFormatters: widget.inputType == TextInputType.phone
+              ? <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp('[0-9+]'))
+                ]
+              : null,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
@@ -74,23 +87,42 @@ class _CustomTextFieldState extends State<CustomTextField> {
             isDense: true,
             hintText: widget.hintText,
             fillColor: Theme.of(context).cardColor,
-            hintStyle: robotoRegular.copyWith(fontSize: Dimensions.FONT_SIZE_LARGE, color: Theme.of(context).hintColor),
+            hintStyle: robotoRegular.copyWith(
+                fontSize: Dimensions.FONT_SIZE_LARGE,
+                color: Theme.of(context).hintColor),
             filled: true,
-            prefixIcon: widget.prefixIcon != null ? Padding(
-              padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
-              child: Image.asset(widget.prefixIcon, height: 20, width: 20),
-            ) : null,
-            suffixIcon: widget.isPassword ? IconButton(
-              icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility, color: Theme.of(context).hintColor.withOpacity(0.3)),
-              onPressed: _toggle,
-            ) : null,
+            prefixIcon: widget.prefixIcon != null
+                ? Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Dimensions.PADDING_SIZE_SMALL),
+                    child:
+                        Image.asset(widget.prefixIcon, height: 20, width: 20),
+                  )
+                : null,
+            suffixIcon: widget.isPassword
+                ? IconButton(
+                    icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                        color: Theme.of(context).primaryColor.withOpacity(0.3)),
+                    onPressed: _toggle,
+                  )
+                : null,
           ),
-          onSubmitted: (text) => widget.nextFocus != null ? FocusScope.of(context).requestFocus(widget.nextFocus)
-              : widget.onSubmit != null ? widget.onSubmit(text) : null,
+          onSubmitted: (text) => widget.nextFocus != null
+              ? FocusScope.of(context).requestFocus(widget.nextFocus)
+              : widget.onSubmit != null
+                  ? widget.onSubmit(text)
+                  : null,
           onChanged: widget.onChanged,
         ),
-
-        widget.divider ? Padding(padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE), child: Divider()) : SizedBox(),
+        widget.divider
+            ? Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: Dimensions.PADDING_SIZE_LARGE),
+                child: Divider(
+                  color: Theme.of(context).primaryColor,
+                ))
+            : SizedBox(),
       ],
     );
   }

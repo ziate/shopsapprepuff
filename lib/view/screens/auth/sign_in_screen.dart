@@ -21,10 +21,13 @@ class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _emailController.text = Get.find<AuthController>().getUserNumber() ?? '';
-    _passwordController.text = Get.find<AuthController>().getUserPassword() ?? '';
+    _passwordController.text =
+        Get.find<AuthController>().getUserPassword() ?? '';
 
     return Scaffold(
-      body: SafeArea(child: Center(
+      backgroundColor: Color(0xff2b3038),
+      body: SafeArea(
+          child: Center(
         child: Scrollbar(
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
@@ -33,31 +36,36 @@ class SignInScreen extends StatelessWidget {
               child: SizedBox(
                 width: 1170,
                 child: GetBuilder<AuthController>(builder: (authController) {
-
                   return Column(children: [
-
                     Image.asset(Images.logo, width: 100),
                     SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-                    Image.asset(Images.logo_name, width: 100),
+                    // Image.asset(Images.logo_name, width: 100),
                     SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
-
-                    Text('sign_in'.tr.toUpperCase(), style: robotoBlack.copyWith(fontSize: 30)),
+                    Text('sign_in'.tr.toUpperCase(),
+                        style: robotoBlack.copyWith(
+                            fontSize: 30, color: Colors.white)),
                     SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-
                     Text(
-                      'only_for_restaurant_owner'.tr, textAlign: TextAlign.center,
-                      style: robotoRegular.copyWith(fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL, color: Theme.of(context).primaryColor),
+                      'only_for_restaurant_owner'.tr,
+                      textAlign: TextAlign.center,
+                      style: robotoRegular.copyWith(
+                          fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL,
+                          color: Theme.of(context).cardColor),
                     ),
                     SizedBox(height: 50),
-
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                        borderRadius:
+                            BorderRadius.circular(Dimensions.RADIUS_SMALL),
                         color: Theme.of(context).cardColor,
-                        boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 1, blurRadius: 5)],
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //       color: Colors.grey[Get.isDarkMode ? 800 : 200],
+                        //       spreadRadius: 1,
+                        //       blurRadius: 5)
+                        // ],
                       ),
                       child: Column(children: [
-
                         CustomTextField(
                           hintText: 'email'.tr,
                           controller: _emailController,
@@ -67,7 +75,6 @@ class SignInScreen extends StatelessWidget {
                           prefixIcon: Images.mail,
                           divider: true,
                         ),
-
                         CustomTextField(
                           hintText: 'password'.tr,
                           controller: _passwordController,
@@ -76,13 +83,12 @@ class SignInScreen extends StatelessWidget {
                           inputType: TextInputType.visiblePassword,
                           prefixIcon: Images.lock,
                           isPassword: true,
-                          onSubmit: (text) => GetPlatform.isWeb ? _login(authController) : null,
+                          onSubmit: (text) =>
+                              GetPlatform.isWeb ? _login(authController) : null,
                         ),
-
                       ]),
                     ),
                     SizedBox(height: 10),
-
                     Row(children: [
                       Expanded(
                         child: ListTile(
@@ -90,7 +96,8 @@ class SignInScreen extends StatelessWidget {
                           leading: Checkbox(
                             activeColor: Theme.of(context).primaryColor,
                             value: authController.isActiveRememberMe,
-                            onChanged: (bool isChecked) => authController.toggleRememberMe(),
+                            onChanged: (bool isChecked) =>
+                                authController.toggleRememberMe(),
                           ),
                           title: Text('remember_me'.tr),
                           contentPadding: EdgeInsets.zero,
@@ -99,33 +106,54 @@ class SignInScreen extends StatelessWidget {
                         ),
                       ),
                       TextButton(
-                        onPressed: () => Get.toNamed(RouteHelper.getForgotPassRoute()),
+                        onPressed: () =>
+                            Get.toNamed(RouteHelper.getForgotPassRoute()),
                         child: Text('${'forgot_password'.tr}?'),
                       ),
                     ]),
                     SizedBox(height: 50),
-
-                    !authController.isLoading ? CustomButton(
-                      buttonText: 'sign_in'.tr,
-                      onPressed: () => _login(authController),
-                    ) : Center(child: CircularProgressIndicator()),
-                    SizedBox(height: Get.find<SplashController>().configModel.toggleRestaurantRegistration ? Dimensions.PADDING_SIZE_SMALL : 0),
-
-                    Get.find<SplashController>().configModel.toggleRestaurantRegistration ? TextButton(
-                      style: TextButton.styleFrom(
-                        minimumSize: Size(1, 40),
-                      ),
-                      onPressed: () async {
-                        if(await canLaunch('${AppConstants.BASE_URL}/restaurant/apply')) {
-                          launch('${AppConstants.BASE_URL}/restaurant/apply');
-                        }
-                      },
-                      child: RichText(text: TextSpan(children: [
-                        TextSpan(text: '${'join_as'.tr} ', style: robotoRegular.copyWith(color: Theme.of(context).disabledColor)),
-                        TextSpan(text: 'restaurant'.tr, style: robotoMedium.copyWith(color: Theme.of(context).textTheme.bodyText1.color)),
-                      ])),
-                    ) : SizedBox(),
-
+                    !authController.isLoading
+                        ? CustomButton(
+                            buttonText: 'sign_in'.tr,
+                            onPressed: () => _login(authController),
+                          )
+                        : Center(child: CircularProgressIndicator()),
+                    SizedBox(
+                        height: Get.find<SplashController>()
+                                .configModel
+                                .toggleRestaurantRegistration
+                            ? Dimensions.PADDING_SIZE_SMALL
+                            : 0),
+                    Get.find<SplashController>()
+                            .configModel
+                            .toggleRestaurantRegistration
+                        ? TextButton(
+                            style: TextButton.styleFrom(
+                              minimumSize: Size(1, 40),
+                            ),
+                            onPressed: () async {
+                              if (await canLaunch(
+                                  '${AppConstants.BASE_URL}/restaurant/apply')) {
+                                launch(
+                                    '${AppConstants.BASE_URL}/restaurant/apply');
+                              }
+                            },
+                            child: RichText(
+                                text: TextSpan(children: [
+                              TextSpan(
+                                  text: '${'join_as'.tr} ',
+                                  style: robotoRegular.copyWith(
+                                      color: Theme.of(context).disabledColor)),
+                              TextSpan(
+                                  text: 'restaurant'.tr,
+                                  style: robotoMedium.copyWith(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          .color)),
+                            ])),
+                          )
+                        : SizedBox(),
                   ]);
                 }),
               ),
@@ -141,13 +169,13 @@ class SignInScreen extends StatelessWidget {
     String _password = _passwordController.text.trim();
     if (_email.isEmpty) {
       showCustomSnackBar('enter_email_address'.tr);
-    }else if (!GetUtils.isEmail(_email)) {
+    } else if (!GetUtils.isEmail(_email)) {
       showCustomSnackBar('enter_a_valid_email_address'.tr);
-    }else if (_password.isEmpty) {
+    } else if (_password.isEmpty) {
       showCustomSnackBar('enter_password'.tr);
-    }else if (_password.length < 6) {
+    } else if (_password.length < 6) {
       showCustomSnackBar('password_should_be'.tr);
-    }else {
+    } else {
       authController.login(_email, _password).then((status) async {
         if (status.isSuccess) {
           if (authController.isActiveRememberMe) {
@@ -157,7 +185,7 @@ class SignInScreen extends StatelessWidget {
           }
           await Get.find<AuthController>().getProfile();
           Get.offAllNamed(RouteHelper.getInitialRoute());
-        }else {
+        } else {
           showCustomSnackBar(status.message);
         }
       });

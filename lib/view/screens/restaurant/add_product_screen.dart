@@ -61,7 +61,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
     return Scaffold(
       appBar: CustomAppBar(
           title: widget.product != null ? 'update_food'.tr : 'add_food'.tr),
-      body: GetBuilder<RestaurantController>(builder: (restController) {
+      body:
+       GetBuilder<RestaurantController>(builder: (restController) {
         return restController.attributeList != null
             ? Column(children: [
                 Expanded(
