@@ -13,6 +13,7 @@
   "enter_a_valid_phone_number": "Enter a valid phone number",
   "enter_password": "Enter your password",
   "password_does_not_matched": "Password doesn't matched",
+  "choose_product":"Choose Product",
   "password_should_be": "Password should be greater than 6 character",
   "otp_verification": "OTP Verification",
   "enter_the_verification_sent_to": "Enter the verification sent to",

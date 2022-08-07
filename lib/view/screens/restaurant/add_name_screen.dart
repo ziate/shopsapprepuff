@@ -24,31 +24,38 @@ class _AddNameScreenState extends State<AddNameScreen> {
   List<TextEditingController> _descriptionControllerList = [];
   List<FocusNode> _nameFocusList = [];
   List<FocusNode> _descriptionFocusList = [];
-  List<Language> _languageList = Get.find<SplashController>().configModel.language;
+  List<Language> _languageList =
+      Get.find<SplashController>().configModel.language;
 
   @override
   void initState() {
     super.initState();
 
-    if(widget.product != null) {
-      for(int index=0; index<_languageList.length; index++) {
+    if (widget.product != null) {
+      for (int index = 0; index < _languageList.length; index++) {
         _nameControllerList.add(TextEditingController(
-          text: widget.product.translations[widget.product.translations.length-2].value,
+          text: widget.product
+              .translations[widget.product.translations.length - 2].value,
         ));
         _descriptionControllerList.add(TextEditingController(
-          text: widget.product.translations[widget.product.translations.length-1].value,
+          text: widget.product
+              .translations[widget.product.translations.length - 1].value,
         ));
         _nameFocusList.add(FocusNode());
         _descriptionFocusList.add(FocusNode());
         widget.product.translations.forEach((translation) {
-          if(_languageList[index].key == translation.locale && translation.key == 'name') {
-            _nameControllerList[index] = TextEditingController(text: translation.value);
-          }else if(_languageList[index].key == translation.locale && translation.key == 'description') {
-            _descriptionControllerList[index] = TextEditingController(text: translation.value);
+          if (_languageList[index].key == translation.locale &&
+              translation.key == 'name') {
+            _nameControllerList[index] =
+                TextEditingController(text: translation.value);
+          } else if (_languageList[index].key == translation.locale &&
+              translation.key == 'description') {
+            _descriptionControllerList[index] =
+                TextEditingController(text: translation.value);
           }
         });
       }
-    }else {
+    } else {
       _languageList.forEach((language) {
         _nameControllerList.add(TextEditingController());
         _descriptionControllerList.add(TextEditingController());
@@ -61,20 +68,64 @@ class _AddNameScreenState extends State<AddNameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: widget.product != null ? 'update_food'.tr : 'add_food'.tr),
+      appBar: CustomAppBar(
+          title: widget.product != null ? 'update_food'.tr : 'add_food'.tr),
       body: Padding(
         padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
         child: Column(children: [
-
-          Expanded(child: ListView.builder(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                'choose_product'.tr,
+                style: robotoRegular.copyWith(
+                  fontSize: Dimensions.FONT_SIZE_SMALL,
+                  color: Theme.of(context).disabledColor,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+          Container(
+            height: 50,
+            padding:
+                EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey[Get.isDarkMode ? 800 : 200],
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 5),
+                )
+              ],
+            ),
+            child: DropdownButton<int>(
+              value: 4,
+              items: [],
+              onChanged: (int value) {
+                // restController.setCategoryIndex(value, true);
+                // restController.getSubCategoryList(
+                //     value != 0
+                //         ? restController.categoryList[value - 1].id
+                //         : 0,
+                //     null);
+              },
+              isExpanded: true,
+              underline: SizedBox(),
+            ),
+          ),
+          SizedBox(height: 30),
+          Expanded(
+              child: ListView.builder(
             physics: BouncingScrollPhysics(),
             itemCount: _languageList.length,
             itemBuilder: (context, index) {
               return Column(children: [
-
                 Text(_languageList[index].value, style: robotoBold),
                 SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-
                 MyTextField(
                   hintText: 'food_name'.tr,
                   controller: _nameControllerList[index],
@@ -83,55 +134,62 @@ class _AddNameScreenState extends State<AddNameScreen> {
                   nextFocus: _descriptionFocusList[index],
                 ),
                 SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
-
                 MyTextField(
                   hintText: 'description'.tr,
                   controller: _descriptionControllerList[index],
                   focusNode: _descriptionFocusList[index],
                   capitalization: TextCapitalization.sentences,
                   maxLines: 5,
-                  inputAction: index != _languageList.length-1 ? TextInputAction.next : TextInputAction.done,
-                  nextFocus: index != _languageList.length-1 ? _nameFocusList[index+1] : null,
+                  inputAction: index != _languageList.length - 1
+                      ? TextInputAction.next
+                      : TextInputAction.done,
+                  nextFocus: index != _languageList.length - 1
+                      ? _nameFocusList[index + 1]
+                      : null,
                 ),
                 SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
-
               ]);
             },
           )),
-
           CustomButton(
             buttonText: 'next'.tr,
             onPressed: () {
               bool _defaultDataNull = false;
-              for(int index=0; index<_languageList.length; index++) {
-                if(_languageList[index].key == 'en') {
-                  if (_nameControllerList[index].text.trim().isEmpty || _descriptionControllerList[index].text.trim().isEmpty) {
+              for (int index = 0; index < _languageList.length; index++) {
+                if (_languageList[index].key == 'en') {
+                  if (_nameControllerList[index].text.trim().isEmpty ||
+                      _descriptionControllerList[index].text.trim().isEmpty) {
                     _defaultDataNull = true;
                   }
                   break;
                 }
               }
-              if(_defaultDataNull) {
+              if (_defaultDataNull) {
                 showCustomSnackBar('enter_data_for_english'.tr);
-              }else {
+              } else {
                 List<Translation> _translations = [];
-                for(int index=0; index<_languageList.length; index++) {
+                for (int index = 0; index < _languageList.length; index++) {
                   _translations.add(Translation(
-                    locale: _languageList[index].key, key: 'name',
-                    value: _nameControllerList[index].text.trim().isNotEmpty ? _nameControllerList[index].text.trim()
+                    locale: _languageList[index].key,
+                    key: 'name',
+                    value: _nameControllerList[index].text.trim().isNotEmpty
+                        ? _nameControllerList[index].text.trim()
                         : _nameControllerList[0].text.trim(),
                   ));
                   _translations.add(Translation(
-                    locale: _languageList[index].key, key: 'description',
-                    value: _descriptionControllerList[index].text.trim().isNotEmpty ? _descriptionControllerList[index].text.trim()
-                        : _descriptionControllerList[0].text.trim(),
+                    locale: _languageList[index].key,
+                    key: 'description',
+                    value:
+                        _descriptionControllerList[index].text.trim().isNotEmpty
+                            ? _descriptionControllerList[index].text.trim()
+                            : _descriptionControllerList[0].text.trim(),
                   ));
                 }
-                Get.toNamed(RouteHelper.getAddProductRoute(widget.product, _translations));
+                Get.toNamed(RouteHelper.getAddProductRoute(
+                    widget.product, _translations));
               }
             },
           ),
-
         ]),
       ),
     );

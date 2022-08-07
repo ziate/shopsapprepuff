@@ -11,6 +11,7 @@
   "enter_a_valid_email_address": "أدخل عنوان بريد إلكتروني صالح",
   "enter_your_phone_number": "أدخل رقم هاتفك",
   "enter_a_valid_phone_number": "أدخل رقم هاتف صالح",
+  "choose_product":"اختار المنتج",
   "enter_password": "أدخل كلمة المرور",
   "password_does_not_matched": "كلمة المرور غير متطابقة",
   "password_should_be": "يجب أن تكون كلمة المرور أكبر من 6 أحرف",

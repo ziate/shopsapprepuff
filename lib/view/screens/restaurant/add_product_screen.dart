@@ -242,11 +242,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                       restController.setCategoryIndex(
                                           value, true);
                                       restController.getSubCategoryList(
-                                          value != 0
-                                              ? restController
-                                                  .categoryList[value - 1].id
-                                              : 0,
-                                          null);
+                                        value != 0
+                                            ? restController
+                                                .categoryList[value - 1].id
+                                            : 0,
+                                        null,
+                                      );
                                     },
                                     isExpanded: true,
                                     underline: SizedBox(),
