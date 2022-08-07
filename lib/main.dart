@@ -16,10 +16,11 @@ import 'package:get/get.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'helper/get_di.dart' as di;
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
-  if(!GetPlatform.isWeb) {
+  if (!GetPlatform.isWeb) {
     HttpOverrides.global = new MyHttpOverrides();
   }
   setPathUrlStrategy();
@@ -30,14 +31,18 @@ Future<void> main() async {
   int _orderID;
   try {
     if (GetPlatform.isMobile) {
-      final NotificationAppLaunchDetails notificationAppLaunchDetails = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+      final NotificationAppLaunchDetails notificationAppLaunchDetails =
+          await flutterLocalNotificationsPlugin
+              .getNotificationAppLaunchDetails();
       if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
-        _orderID = notificationAppLaunchDetails.payload != null ? int.parse(notificationAppLaunchDetails.payload) : null;
+        _orderID = notificationAppLaunchDetails.payload != null
+            ? int.parse(notificationAppLaunchDetails.payload)
+            : null;
       }
       await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
       FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
     }
-  }catch(e) {}
+  } catch (e) {}
 
   runApp(MyApp(languages: _languages, orderID: _orderID));
 }
@@ -58,7 +63,10 @@ class MyApp extends StatelessWidget {
           theme: themeController.darkTheme ? dark : light,
           locale: localizeController.locale,
           translations: Messages(languages: languages),
-          fallbackLocale: Locale(AppConstants.languages[0].languageCode, AppConstants.languages[0].countryCode),
+          fallbackLocale: Locale(
+            AppConstants.languages[0].languageCode,
+            AppConstants.languages[0].countryCode,
+          ),
           initialRoute: RouteHelper.splash,
           getPages: RouteHelper.routes,
           defaultTransition: Transition.topLevel,
@@ -72,7 +80,8 @@ class MyApp extends StatelessWidget {
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext context) {
-    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
-
