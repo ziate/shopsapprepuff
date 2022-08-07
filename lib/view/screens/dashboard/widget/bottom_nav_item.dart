@@ -10,7 +10,8 @@ class BottomNavItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: IconButton(
-        icon: Icon(iconData, color: isSelected ? Theme.of(context).primaryColor : Colors.grey, size: 25),
+        icon: Icon(iconData,
+            color: isSelected ? Color(0xffe1003c) : Colors.white, size: 25),
         onPressed: onTap,
       ),
     );

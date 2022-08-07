@@ -14,31 +14,47 @@ class OrderHistoryScreen extends StatelessWidget {
     Get.find<OrderController>().getPaginatedOrders(1, true);
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'order_history'.tr, isBackButtonExist: false),
+      backgroundColor: Color(0xff2b3038),
+      appBar: CustomAppBar(
+        title: 'order_history'.tr,
+        isBackButtonExist: false,
+      ),
       body: GetBuilder<OrderController>(builder: (orderController) {
         return Padding(
           padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
           child: Column(children: [
-
             GetBuilder<AuthController>(builder: (authController) {
-              return authController.profileModel != null ? Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-                ),
-                child: Row(children: [
-                  CountWidget(title: 'today'.tr, count: authController.profileModel.todaysOrderCount),
-                  CountWidget(title: 'this_week'.tr, count: authController.profileModel.thisWeekOrderCount),
-                  CountWidget(title: 'this_month'.tr, count: authController.profileModel.thisMonthOrderCount),
-                ]),
-              ) : SizedBox();
+              return authController.profileModel != null
+                  ? Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius:
+                            BorderRadius.circular(Dimensions.RADIUS_SMALL),
+                      ),
+                      child: Row(children: [
+                        CountWidget(
+                            title: 'today'.tr,
+                            count:
+                                authController.profileModel.todaysOrderCount),
+                        CountWidget(
+                            title: 'this_week'.tr,
+                            count:
+                                authController.profileModel.thisWeekOrderCount),
+                        CountWidget(
+                            title: 'this_month'.tr,
+                            count: authController
+                                .profileModel.thisMonthOrderCount),
+                      ]),
+                    )
+                  : SizedBox();
             }),
             SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
-
             Container(
               height: 40,
               decoration: BoxDecoration(
-                border: Border.all(color: Theme.of(context).disabledColor, width: 1),
+                color: Colors.white,
+                border: Border.all(
+                    color: Theme.of(context).disabledColor, width: 1),
                 borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
               ),
               child: ListView.builder(
@@ -46,18 +62,29 @@ class OrderHistoryScreen extends StatelessWidget {
                 itemCount: orderController.statusList.length,
                 itemBuilder: (context, index) {
                   return OrderButton(
-                    title: orderController.statusList[index].tr, index: index, orderController: orderController, fromHistory: true,
+                    title: orderController.statusList[index].tr,
+                    index: index,
+                    orderController: orderController,
+                    fromHistory: true,
                   );
                 },
               ),
             ),
-            SizedBox(height: orderController.historyOrderList != null ? Dimensions.PADDING_SIZE_SMALL : 0),
-
+            SizedBox(
+                height: orderController.historyOrderList != null
+                    ? Dimensions.PADDING_SIZE_SMALL
+                    : 0),
             Expanded(
-              child: orderController.historyOrderList != null ? orderController.historyOrderList.length > 0
-                  ? OrderView() : Center(child: Text('no_order_found'.tr)) : Center(child: CircularProgressIndicator()),
+              child: orderController.historyOrderList != null
+                  ? orderController.historyOrderList.length > 0
+                      ? OrderView()
+                      : Center(
+                          child: Text(
+                          'no_order_found'.tr,
+                          style: TextStyle(color: Colors.white),
+                        ))
+                  : Center(child: CircularProgressIndicator()),
             ),
-
           ]),
         );
       }),

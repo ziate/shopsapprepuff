@@ -11,27 +11,32 @@ class WalletWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(child: Container(
-      padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_LARGE, horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+    return Expanded(
+        child: Container(
+      padding: EdgeInsets.symmetric(
+          vertical: Dimensions.PADDING_SIZE_LARGE,
+          horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
-        boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 700 : 300], spreadRadius: 0.5, blurRadius: 5)],
+        // boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 700 : 300], spreadRadius: 0.5, blurRadius: 5)],
       ),
       alignment: Alignment.center,
       child: Column(children: [
-
         Text(
           PriceConverter.convertPrice(value),
-          style: robotoBold.copyWith(fontSize: Dimensions.FONT_SIZE_LARGE, color: Theme.of(context).primaryColor),
+          style: robotoBold.copyWith(
+              fontSize: Dimensions.FONT_SIZE_LARGE,
+              color: Theme.of(context).primaryColor),
         ),
         SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-
         Text(
-          title, textAlign: TextAlign.center,
-          style: robotoRegular.copyWith(fontSize: Dimensions.FONT_SIZE_SMALL, color: Theme.of(context).disabledColor),
+          title,
+          textAlign: TextAlign.center,
+          style: robotoRegular.copyWith(
+              fontSize: Dimensions.FONT_SIZE_SMALL,
+              color: Theme.of(context).disabledColor),
         ),
-
       ]),
     ));
   }

@@ -54,7 +54,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     var androidInitialize = AndroidInitializationSettings('notification_icon');
     var iOSInitialize = IOSInitializationSettings();
-    var initializationsSettings = InitializationSettings(android: androidInitialize, iOS: iOSInitialize);
+    var initializationsSettings =
+        InitializationSettings(android: androidInitialize, iOS: iOSInitialize);
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     flutterLocalNotificationsPlugin.initialize(initializationsSettings);
 
@@ -67,11 +68,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
       String _body = message.notification.body;
       Get.find<OrderController>().getPaginatedOrders(1, true);
       Get.find<OrderController>().getCurrentOrders();
-      if(_type == 'new_order' || _body == 'New order placed') {
+      if (_type == 'new_order' || _body == 'New order placed') {
         // _orderCount = _orderCount + 1;
         Get.dialog(NewRequestDialog());
-      }else {
-        NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin, false);
+      } else {
+        NotificationHelper.showNotification(
+            message, flutterLocalNotificationsPlugin, false);
       }
     });
 
@@ -84,7 +86,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     //     _orderCount = Get.find<OrderController>().runningOrders.length;
     //   }
     // });
-
   }
 
   // @override
@@ -97,44 +98,68 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if(_pageIndex != 0) {
+        if (_pageIndex != 0) {
           _setPage(0);
           return false;
-        }else {
+        } else {
           return true;
         }
       },
       child: Scaffold(
-
-        floatingActionButton: !GetPlatform.isMobile ? null : FloatingActionButton(
-          elevation: 5,
-          backgroundColor: _pageIndex == 2 ? Theme.of(context).primaryColor : Theme.of(context).cardColor,
-          onPressed: () => _setPage(2),
-          child: Image.asset(
-            Images.restaurant, height: 20, width: 20,
-            color: _pageIndex == 2 ? Theme.of(context).cardColor : Theme.of(context).disabledColor,
-          ),
-        ),
-        floatingActionButtonLocation: !GetPlatform.isMobile ? null : FloatingActionButtonLocation.centerDocked,
-
-        bottomNavigationBar: !GetPlatform.isMobile ? SizedBox() : BottomAppBar(
-          elevation: 5,
-          notchMargin: 5,
-          shape: CircularNotchedRectangle(),
-
-          child: Padding(
-            padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
-            child: Row(children: [
-              BottomNavItem(iconData: Icons.home, isSelected: _pageIndex == 0, onTap: () => _setPage(0)),
-              BottomNavItem(iconData: Icons.shopping_bag, isSelected: _pageIndex == 1, onTap: () => _setPage(1)),
-              Expanded(child: SizedBox()),
-              BottomNavItem(iconData: Icons.monetization_on, isSelected: _pageIndex == 3, onTap: () => _setPage(3)),
-              BottomNavItem(iconData: Icons.menu, isSelected: _pageIndex == 4, onTap: () {
-                Get.bottomSheet(MenuScreen(), backgroundColor: Colors.transparent, isScrollControlled: true);
-              }),
-            ]),
-          ),
-        ),
+        floatingActionButton: !GetPlatform.isMobile
+            ? null
+            : FloatingActionButton(
+                elevation: 5,
+                backgroundColor: _pageIndex == 2
+                    ? Theme.of(context).primaryColor
+                    : Theme.of(context).cardColor,
+                onPressed: () => _setPage(2),
+                child: Image.asset(
+                  Images.restaurant,
+                  height: 20,
+                  width: 20,
+                  color: _pageIndex == 2
+                      ? Theme.of(context).cardColor
+                      : Theme.of(context).disabledColor,
+                ),
+              ),
+        floatingActionButtonLocation: !GetPlatform.isMobile
+            ? null
+            : FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: !GetPlatform.isMobile
+            ? SizedBox()
+            : BottomAppBar(
+                color: Theme.of(context).primaryColor,
+                elevation: 5,
+                notchMargin: 5,
+                shape: CircularNotchedRectangle(),
+                child: Padding(
+                  padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                  child: Row(children: [
+                    BottomNavItem(
+                        iconData: Icons.home,
+                        isSelected: _pageIndex == 0,
+                        onTap: () => _setPage(0)),
+                    BottomNavItem(
+                        iconData: Icons.shopping_bag,
+                        isSelected: _pageIndex == 1,
+                        onTap: () => _setPage(1)),
+                    Expanded(child: SizedBox()),
+                    BottomNavItem(
+                        iconData: Icons.monetization_on,
+                        isSelected: _pageIndex == 3,
+                        onTap: () => _setPage(3)),
+                    BottomNavItem(
+                        iconData: Icons.menu,
+                        isSelected: _pageIndex == 4,
+                        onTap: () {
+                          Get.bottomSheet(MenuScreen(),
+                              backgroundColor: Colors.transparent,
+                              isScrollControlled: true);
+                        }),
+                  ]),
+                ),
+              ),
         body: PageView.builder(
           controller: _pageController,
           itemCount: _screens.length,
